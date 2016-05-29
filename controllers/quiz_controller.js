@@ -29,7 +29,11 @@ exports.index = function(req, res, next) {
   } else{
   models.Quiz.findAll()
   .then(function(quizzes) {
-      res.render('quizzes/index.ejs', { quizzes: quizzes});
+    if (req.params.format===".json"){ 
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(quizzes));
+      }
+      else res.render('quizzes/index.ejs', { quizzes: quizzes});
     })
     .catch(function(error) {
       next(error);
@@ -37,24 +41,16 @@ exports.index = function(req, res, next) {
   }
 };
 
-exports.search = function(req, res, next) {
-  var buscar=texto.replace(' ', '%');
-  models.Quiz.findAll({where: {question: {$like: "%buscar%"}}})
-  .then(function(quizzes) {
-      res.render('quizzes/index.ejs', { quizzes: quizzes});
-    })
-    .catch(function(error) {
-      next(error);
-    });
-};
 
 // GET /quizzes/:id
 exports.show = function(req, res, next) {	
 	var answer = req.query.answer || '';
-	res.render('quizzes/show', {quiz: req.quiz,
-								answer: answer});
+	if (req.params.format===".json"){ 
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(req.quiz));
+  }
+  else res.render('quizzes/show', {quiz: req.quiz, answer: answer});
 };
-
 
 
 
