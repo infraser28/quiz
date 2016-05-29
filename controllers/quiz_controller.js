@@ -121,4 +121,9 @@ exports.destroy = function(req, res, next) {
     });
 };
 
+//Authors
+exports.author = function(req, res, next){
+  res.render('author');
+}
+
 
