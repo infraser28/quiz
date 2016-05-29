@@ -5,12 +5,14 @@
   <title> Preguntas </title>
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
   <link rel='stylesheet' href='/stylesheets/style.css' />
-  <link rel='stylesheet' type='text/css'
-    media='only screen and (min-width: 800px) and (min-device-width: 600px)'
-    href='/stylesheets/wide.css' />
-  <link rel='stylesheet' type='text/css'
-    media='only screen and (max-width: 480px)' 
-    href='/stylesheets/smartphone.css' />
+  <link rel='stylesheet' 
+        type='text/css'
+        media='only screen and (min-width: 800px) and (min-device-width: 600px)'
+        href='/stylesheets/wide.css' />
+  <link rel='stylesheet'
+        type='text/css'
+        media='only screen and (max-width: 480px)' 
+        href='/stylesheets/smartphone.css' />
 </head> 
 
 <body>
@@ -19,19 +21,55 @@
       <h2>Quiz<span class="no-narrow">: el juego de las preguntas</span></h2>
     </header>
 
-    <nav class="main" role="navigation">
-      <a href="/">Inicio</a>
-      <a href="/quizzes">Preguntas</a>
-    </nav>
+      <nav class="main" role="navigation">
+        <a href="/">Inicio</a>
+        <a href="/quizzes">Preguntas</a>
+      </nav>
 
-    <section class="main">
-      <div>
-        <%- body %>
-      </div> 
-    </section>
+       <section>
+            <% if (messages.info) { %>
+               <article id='flashinfo'>
+                 <h3>Información de interés:</h3>
+                 <ul>
+                    <% for (var i in messages.info) { %>
+                      <li> <%= messages.info[i] %> </li>
+                    <% } %>
+                 </ul>
+               </article>
+            <% } %>
+
+            <% if (messages.success) { %>
+               <article id='flashsuccess'>
+                 <h3>Tareas completadas con éxito:</h3>
+                 <ul>
+                    <% for (var i in messages.success) { %>
+                       <li> <%= messages.success[i] %> </li>
+                    <% } %>
+                 </ul>
+               </article>
+            <% } %>
+
+            <% if (messages.error) { %>
+               <article id='flasherror'>
+                 <h3>Errores encontrados:</h3>
+                 <ul>
+                    <% for (var i in messages.error) { %>
+                      <li> <%= messages.error[i] %> </li>
+                    <% } %>
+                 </ul>
+               </article>
+            <% } %>
+       </section>
+
+      <section class="main">
+        <div>
+          <%- body %>
+        </div>
+      </section>
 
     <footer class="main">
-      <a href="http://es.wikipedia.org/wiki/Quiz">¿Que es un Quiz?</a>
+      <a href="http://es.wikipedia.org/wiki/Quiz">
+        ¿Que es un Quiz?</a>
     </footer>
   </div>
 </body> 
