@@ -17,15 +17,36 @@ exports.load = function(req, res, next, quizId) {
 
 // GET /quizzes
 exports.index = function(req, res, next) {
-	models.Quiz.findAll()
-		.then(function(quizzes) {
-			res.render('quizzes/index.ejs', { quizzes: quizzes});
-		})
-		.catch(function(error) {
-			next(error);
-		});
+  if(req.query.search){
+    var buscar = req.query.search.replace(' ', '%');
+    models.Quiz.findAll({where: {question: {$like: "%"+buscar+"%"}}})
+      .then(function(quizzes) {
+        res.render('quizzes/index.ejs', { quizzes: quizzes});
+      })
+      .catch(function(error) {
+        next(error);
+      });
+  } else{
+  models.Quiz.findAll()
+  .then(function(quizzes) {
+      res.render('quizzes/index.ejs', { quizzes: quizzes});
+    })
+    .catch(function(error) {
+      next(error);
+    });
+  }
 };
 
+exports.search = function(req, res, next) {
+  var buscar=texto.replace(' ', '%');
+  models.Quiz.findAll({where: {question: {$like: "%buscar%"}}})
+  .then(function(quizzes) {
+      res.render('quizzes/index.ejs', { quizzes: quizzes});
+    })
+    .catch(function(error) {
+      next(error);
+    });
+};
 
 // GET /quizzes/:id
 exports.show = function(req, res, next) {	
@@ -124,6 +145,16 @@ exports.destroy = function(req, res, next) {
 //Authors
 exports.author = function(req, res, next){
   res.render('author');
+};
+
+//Search
+exports.search = function(req, res, ext){
+  texto=texto.replace(' ', '%');
+  models.Quiz.findAll({where: {question: {$like: "%texto%"}}})
+  .then(function(quizzes) {
+      res.render('quizzes/index.ejs', { quizzes: quizzes});
+    })
+    .catch(function(error) {
+      next(error);
+    });
 }
-
-
